@@ -5,6 +5,11 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  /* bg manual setting */
+  background-image: url("https://thumbs.dreamstime.com/z/world-technology-science-news-background-connection-digital-wires-circle-dots-map-143218024.jpg");
+  background-size: cover;
+  /* bg ends */
 }
 
 code {
