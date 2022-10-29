@@ -3,10 +3,10 @@ export default function form() {
     return (
 
 
-        <div className='container p-4' style={{ margin: '10% auto', backgroundColor: 'rgba(0,0,0,0.7)', borderRadius:'20px' }}>
-            <label htmlFor="basic-url" className="form-label">Enter Your Image URL</label>
+        <div className='container p-4' style={{textAlign: 'center',color: 'white', margin: '10% auto', backgroundColor: 'rgba(0,0,0,0.7)', borderRadius:'20px' }}>
+            <h1>Sign up</h1>
             <div className="input-group mb-4">
-                <span className="input-group-text" id="basic-addon3">https://example.com/users/</span>
+                <span className="input-group-text" id="basic-addon3">Enter Your Image URL</span>
                 <input type="text" className="form-control p-3 imgurl" id="basic-url" aria-describedby="basic-addon3" />
             </div>
 
@@ -33,7 +33,7 @@ export default function form() {
             </div>
 
             <div className="input-group mb-4 ">
-                <button className=" btn btn-outline-danger p-3" style={{width: '100%'}} onClick={()=>{
+                <button className=" btn btn-danger p-3" style={{width: '100%'}} onClick={()=>{
 
 
                 let image= document.querySelector(".imgurl").value;

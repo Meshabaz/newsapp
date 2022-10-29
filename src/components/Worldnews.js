@@ -1,41 +1,65 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from "react-router-dom";
 
-export default function worldnews() {
+export default function Worldnews() {
     // document.querySelector(".search").addEventListener("Input",()=>{
     //     let search=document.querySelector(".search").value;
     //     alert("search") 
     // })
 
+    const obj = JSON.parse(localStorage.getItem("newsobj"));
 
+    useEffect(() => {
+        getdatabycountry();
+    })
+    let x = ''
+    let key = ''
 
-    async function doFetch(url) {
-        alert(url)
+    if (x.length > 0) {
+        key = x;
+    } else {
+        key = obj.country;
+    }
+    console.log(obj)
+    const getdatabycountry = async () => {
+        console.log("key:", key, "x:" + x, "x_len:", x.length)
+        let url = `https://masai-api.herokuapp.com/news/top-headlines?country=${key}`;
         let res = await fetch(url);
-        console.log(res);
         let data = await res.json();
-        console.log(data)
-    }
-    // const obj = JSON.parse(localStorage.getItem("newsobj"));
-    const searchIt = () => {
-        let search = document.querySelector(".search").value;
-        let url = `https://masai-api.herokuapp.com/news?q=${search}`;
-        doFetch(url);
+        showToUi(data.articles);
     }
 
-    // let debounce = debounceFind()
+    const showToUi = (data) => {
+        // console.log("data",data);
+        let container = document.querySelector(".cc")
+        let card = '';
+        data.map((e) => {
+            // console.log(e)
+            return card += `
+        <div className="card">
+          <div className="image">
+            <img src=${e.urlToImage}  className="img-fluid rounded-start" alt="..."/>
+          </div>
+            <div className="card_body">
+              <h5 className="card_title">${e.author}</h5>
+              <p className="card_text">${e.title}</p>
+              <p className="card_text"><small className="text-muted">${e.description}</small></p>
+            </div>
+        </div>
+      `
+        })
+        container.innerHTML = card;
+    }
+
 
     return (
         <div>
+
             <nav className="navbar navbar-expand-lg bg-light fixed-top">
                 <div className="container-fluid">
                     <Link className="navbar-brand" to="/">News_Forecast</Link>
                     <form className="d-flex" role="search">
-                        <input onKeyPress={(e) => {
-                            if (e.key === 'Enter') {
-                                searchIt();
-                            }
-                        }} className="form-control me-2 search" type="search" placeholder="Search" aria-label="Search" />
+                        <input className="form-control me-2 search" type="search" placeholder="Search" aria-label="Search" />
                         <button className="btn btn-outline-success" type="submit">Search</button>
                     </form>
 
@@ -45,19 +69,20 @@ export default function worldnews() {
                                 <Link className="nav-link active" aria-current="page" to="/">Home</Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" to="/">India</Link>
+                                <Link className="nav-link" to="/worldnews" 
+                                onClick={alert("nope")}>India</Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" to="/">U.S.A</Link>
+                                <Link className="nav-link" to="/worldnews">U.S.A</Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" to="/">U.K</Link>
+                                <Link className="nav-link" to="/worldnews">U.K</Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" to="/">China</Link>
+                                <Link className="nav-link" to="/worldnews">China</Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" to="/">Newzeland</Link>
+                                <Link className="nav-link" to="/worldnews">Newzeland</Link>
                             </li>
 
                         </ul>
@@ -65,6 +90,21 @@ export default function worldnews() {
                     </div>
                 </div>
             </nav>
+
+            <div className=' main_c'>
+                <div className='sidebar'>
+                    <div className='imgdiv'>
+                        <img src={obj.image} alt="" />
+                    </div>
+                    <div>
+                        <h2>{obj.name}</h2>
+                        <h5>{obj.email}</h5>
+                    </div>
+                </div>
+                <div className='container cc my-5'>
+                </div>
+
+            </div>
         </div>
     )
 }
